@@ -3,19 +3,20 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import SignIn from "./auth/sign-in/index.jsx"
+import SignInPage from "./auth/sign-in/index.jsx"
 import Home from './home/index.jsx'
 import Dashboard from './dashboard/index.jsx'
+import { ClerkProvider } from '@clerk/clerk-react'
 
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+if (!PUBLISHABLE_KEY) {
+  throw new Error("Missing Publishable Key")
+}
 
 const route = createBrowserRouter([
   {
     element:<App></App>,
     children:[
-      {
-        path:"/",
-        element :<Home/>
-      },
       {
         path:"/dashboard",
         element :<Dashboard/>
@@ -24,8 +25,12 @@ const route = createBrowserRouter([
     ]
   },
   {
+    path:"/",
+    element :<Home/>
+  },
+  {
     path:"/auth/sign-in",
-    element:<SignIn></SignIn>
+    element:<SignInPage></SignInPage>
   }
 ]
  
@@ -33,6 +38,8 @@ const route = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={route} />
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <RouterProvider router={route} />
+    </ClerkProvider>
   </React.StrictMode>,
 )

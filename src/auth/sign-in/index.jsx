@@ -1,9 +1,10 @@
 import React from 'react'
+import { SignIn } from '@clerk/clerk-react'
 
-function SignIn() {
+function SignInPage() {
   return (
-    <div>sign-in</div>
+    <div className='flex justify-center my-20 items-center'><SignIn /></div>
   )
 }
 
-export default SignIn
+export default SignInPage
